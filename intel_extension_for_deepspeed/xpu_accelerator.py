@@ -270,6 +270,8 @@ class XPU_Accelerator(DeepSpeedAccelerator):
             return InferenceBuilder
         elif class_name == "FlashAttentionBuilder":
             return FlashAttentionBuilder
+        elif class_name == "CCLCommBuilder":
+            return None
         else:
             # return a NotImplementedBuilder to avoid get NoneType[Name] in unit tests
             return NotImplementedBuilder
