@@ -249,7 +249,7 @@ class XPU_Accelerator(DeepSpeedAccelerator):
 
     # return an op builder class, name specified by class_name
     def get_op_builder(self, class_name):
-        from intel_extension_for_deepspeed.op_builder import CPUAdagradBuilder, CPUAdamBuilder, FusedAdamBuilder, QuantizerBuilder, UtilsBuilder, InferenceBuilder, FlashAttentionBuilder, AsyncIOBuilder
+        from intel_extension_for_deepspeed.op_builder import CPUAdagradBuilder, CPUAdamBuilder, FusedAdamBuilder, QuantizerBuilder, UtilsBuilder, InferenceBuilder, FlashAttentionBuilder, AsyncIOBuilder, NotImplementedBuilder
         from deepspeed.ops.op_builder.sparse_attn import SparseAttnBuilder
 
         if class_name == "AsyncIOBuilder":
@@ -270,8 +270,11 @@ class XPU_Accelerator(DeepSpeedAccelerator):
             return InferenceBuilder
         elif class_name == "FlashAttentionBuilder":
             return FlashAttentionBuilder
-        else:
+        elif class_name == "CCLCommBuilder":
             return None
+        else:
+            # return a NotImplementedBuilder to avoid get NoneType[Name] in unit tests
+            return NotImplementedBuilder
 
     def build_extension(self):
         try:
